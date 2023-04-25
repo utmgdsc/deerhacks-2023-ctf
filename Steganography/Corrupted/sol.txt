@@ -1,0 +1,4 @@
+hexedit *image.png*
+Image has a png extension, and includes data in the file header associated with the PNG format, indicating that it is likely a corrupted PNG file. It is missing only the file signature; repairing the first 8 bytes in a hex editor will make the file viewable again.
+
+dhctf{P4TCh_d4_H34d3R5_45Fh2}
