@@ -1,0 +1,12 @@
+Uses the stego-lsb python package
+pip install stego-lsb
+
+Hidden using the command:
+stegolsb steglsb -h -i selfie_original.png -s flag.txt -o selfie.png -c 1
+
+Recover with:
+stegolsb steglsb -r -i selfie.png -o secret.txt
+
+*Default LSB count (2)
+
+dhctf{h1dd3N_1n_th3_P1X3LS_F2uL9}
