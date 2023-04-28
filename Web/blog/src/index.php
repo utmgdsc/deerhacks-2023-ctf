@@ -74,7 +74,7 @@ background-color: #43D433;
 <center>
 <div id="title">
 <h1 id="titleHeader">Blog Site</h1>
-<p id="description">Welcome to my site!</p>
+<p id="description">Welcome to my blog site!</p>
 </div>
 <br>
 <br>
@@ -92,10 +92,9 @@ From troubleshooting those pesky PHP errors to delving into the intricacies of w
 
 So, join me on this exciting journey as I share my coding adventures, thoughts on the latest tech trends, and insights gained from my experiments with PHP and web development. Get ready to dive into the world of coding, challenges, and endless possibilities!
 
-Happy coding</p>
+Happy coding,</p>
 <br>
 <p>More stuffs soon to come.</p>
-<p>( ͡° ͜ʖ ͡°)</p>
 </div>
 </center>
 </body>
