@@ -18,7 +18,7 @@ int main (int argc, char *argv[]) {
 
 	while (1) {
 		printf("Enter password: ");
-		fgets(input, MAX_LEN, stdin) == NULL;
+		fgets(input, MAX_LEN, stdin);
 
 		input[strcspn(input, "\n")] = '\0';
 
@@ -28,8 +28,6 @@ int main (int argc, char *argv[]) {
 		}
 		printf("Incorrect. Try again.\n");
 	}
-
-	printf("Correct! The flag is the password.\n");
 
 	return 0;
 }

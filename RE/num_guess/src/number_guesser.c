@@ -8,12 +8,20 @@
 
 #define PORT 1337
 #define BUFF_SIZE 32
-
-char flag[] = "flag{pr3d1c74bl3_prn6_4j4v19}";
+#define FLAG_SIZE 30
 
 extern char *tzname[2]; // std and dst time zone
 
 int main (int argc, char *argv[]) {
+	char flag[FLAG_SIZE] = {0};
+	FILE *fp;
+	if ((fp = fopen("flag.txt", "r")) == NULL) {
+		perror("fopen");
+		exit(1);
+	}
+	fgets(flag, FLAG_SIZE, fp);
+	fclose(fp);
+
 	int sock;
 	int connfd;
 
@@ -44,7 +52,7 @@ int main (int argc, char *argv[]) {
 
 		if (fork() == 0) {
 			time_t t;
-			srand(time(&t)); // VULN!!11!
+			srand(time(&t));
 
 			FILE *fp;
 			if ((fp = fdopen(connfd, "r+")) != NULL) {
@@ -56,8 +64,8 @@ int main (int argc, char *argv[]) {
 				}
 
 				char *date = asctime(&localt);
-				// Get rid of newline:
-				date[strlen(date) - 1] = '\0'; // Not sure if this is allowed lol (shouldn't affect other children)
+
+				date[strlen(date) - 1] = '\0';
 
 				fprintf(fp, "[*] Connection at: %s %s\n", date, localt.tm_isdst ? tzname[1] : tzname[0]);
 
