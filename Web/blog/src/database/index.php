@@ -35,7 +35,7 @@ width: 100%;
 <body>
 
 <h1 id="title">Database</h1>
-<p id="desc">This is a place where you can view<br>and download files others have uploaded.<br>We always look at the files after they are uploaded.<br>If something bad is found on it, it will be removed.</p>
+<p id="desc">This is a place where you can share<br>and download files.<br>Do not upload any malicious;<br>We have security measures in place.</p>
 
 <div id="linkholder">
 <a style="text-align: center;" href="upload.php">Upload A File</a>
