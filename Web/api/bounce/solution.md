@@ -1,0 +1,1 @@
+Go to /bounce.html, open the page sources, notice the JQuery reference. The JQuery script contains the flag in a comment so just Ctnl + F "dhctf" to find it.

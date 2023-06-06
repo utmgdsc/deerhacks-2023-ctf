@@ -1,0 +1,1 @@
+Open /buzz, press "Load more" a cupple of times, after a while the text would contain a hidden html comment with the flag.

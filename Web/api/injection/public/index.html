@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>file upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        /* Credit: https://jsfiddle.net/uo8tz6hm/5/ */
+        body, html {
+            font-family: Arial, Sans;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            text-align: center;
+            transform: translateX(-50%);
+        }
+
+        .spanner {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            background: #2a2a2a55;
+            width: 100%;
+            display: block;
+            text-align: center;
+            height: 300px;
+            color: #FFF;
+            transform: translateY(-50%);
+            z-index: 1000;
+            visibility: hidden;
+        }
+
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            visibility: hidden;
+        }
+
+        .loader,
+        .loader:before,
+        .loader:after {
+            border-radius: 50%;
+            width: 2.5em;
+            height: 2.5em;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation: load7 1.8s infinite ease-in-out;
+            animation: load7 1.8s infinite ease-in-out;
+        }
+
+        .loader {
+            color: #ffffff;
+            font-size: 10px;
+            margin: 80px auto;
+            position: relative;
+            text-indent: -9999em;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        .loader:before,
+        .loader:after {
+            content: '';
+            position: absolute;
+            top: 0;
+        }
+
+        .loader:before {
+            left: -3.5em;
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .loader:after {
+            left: 3.5em;
+        }
+
+        @-webkit-keyframes load7 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 2.5em 0 -1.3em;
+            }
+            40% {
+                box-shadow: 0 2.5em 0 0;
+            }
+        }
+
+        @keyframes load7 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 2.5em 0 -1.3em;
+            }
+            40% {
+                box-shadow: 0 2.5em 0 0;
+            }
+        }
+
+        .hide {
+            visibility: hidden;
+            display: none;
+        }
+
+        .show {
+            visibility: visible;
+        }
+
+        .spanner, .overlay {
+            opacity: 0;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+
+        .spanner.show, .overlay.show {
+            opacity: 1
+        }
+    </style>
+</head>
+
+<body>
+<div class="overlay"></div>
+<div class="spanner">
+    <div class="loader"></div>
+    <p>Uploading music file, please be patient.</p>
+</div>
+<div class="d-flex align-content-center justify-content-center container-fluid h-100 bg-secondary">
+    <div class="d-flex row align-items-center container-fluid justify-content-center align-content-center align-middle">
+        <div class="bg-light col col-lg-auto pt-5 pb-5 p-4">
+            <div class="">
+                <div class="mt-0">
+                    <h1>Welcome to our cool encrypter!</h1>
+                    <form method='post' id="form" action='./upload'
+                          enctype="multipart/form-data">
+                        <div>
+                            <label class="form-label" for="file">Select a text file to encrypt:</label>
+                            <input required type='file' class="form-control" id="file" name='fileUploaded'>
+                        </div>
+                        <input class="btn btn-primary w-100" type='submit'>
+                    </form>
+                </div>
+
+                <div id="output-container" class="hide mt-5">
+                    <div><h3>Output:</h3></div>
+                    <div id="output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script lang="js">
+    $("#form").submit(function (e) {
+        e.preventDefault();
+        $('#output').empty()
+        $('#output-container').addClass('hide')
+        $("div.spanner").addClass("show");
+        $("div.overlay").addClass("show");
+        var form = $("#form");
+        var formData = new FormData(form[0]);
+        $.ajax({
+            type: "POST",
+            url: $(form).prop("action"),
+            data: formData,
+            contentType: false,
+            processData: false,
+            error: (err) => {
+                $('#output-container').removeClass('hide')
+                const div2 = document.createElement('div')
+                const text = document.createElement('textarea')
+                text.value = JSON.stringify(err)
+                text.disabled = true
+                text.style.height = "250px"
+                text.classList.add("w-100")
+                div2.append(text)
+                $('#output').append(div2)
+                $("div.spanner").removeClass("show");
+                $("div.overlay").removeClass("show");
+            },
+            success: data => {
+                $('#output-container').removeClass('hide')
+                const div2 = document.createElement('div')
+                const text = document.createElement('textarea')
+                text.value = data.output
+                text.disabled = true
+                text.style.height = "250px"
+                text.classList.add("w-100")
+                div2.append(text)
+                $('#output').append(div2)
+                $("div.spanner").removeClass("show");
+                $("div.overlay").removeClass("show");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

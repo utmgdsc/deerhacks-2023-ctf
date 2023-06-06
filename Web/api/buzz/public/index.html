@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grab your popcorn!</title>
+</head>
+<body>
+<div id="script">
+
+</div>
+<button onclick="loadMore(i++)">Load More</button>
+</body>
+<script>
+    let i = 0
+    let processing = false
+
+    async function loadMore(i) {
+        processing = true
+        const text = await fetch("./getscript?current=" + i).then(x => x.text())
+        const newp = document.createElement("p")
+        newp.innerHTML = text
+        document.getElementById("script").appendChild(newp)
+        processing = false
+    }
+
+    loadMore(i++)
+</script>
+</html>

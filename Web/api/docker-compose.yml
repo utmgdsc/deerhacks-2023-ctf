@@ -1,0 +1,39 @@
+version: '3'
+services:
+  index:
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+  buzz:
+    restart: unless-stopped
+    build:
+      context: ./buzz
+      dockerfile: ../Dockerfile
+  bounce:
+    restart: unless-stopped
+    build:
+      context: ./bounce
+      dockerfile: ../Dockerfile
+  injection:
+    restart: unless-stopped
+    build:
+      context: ./injection
+      dockerfile: ../Dockerfile
+  nginx:
+    image: nginx
+    restart: unless-stopped
+    depends_on:
+      - buzz
+      - bounce
+      - index
+      - injection
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx-selfsigned.key:/etc/nginx/nginx-selfsigned.key
+      - ./nginx-selfsigned.crt:/etc/nginx/nginx-selfsigned.crt
+      - ./dhparam.pem:/etc/nginx/dhparam.pem
+      - ./snippets:/etc/nginx/snippets
